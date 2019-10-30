@@ -38,7 +38,7 @@ spec:
               key: url
         - name: CLUSTER_NAME
           valueFrom:
-            configMap:
+            configMapKeyRef:
               name: telegraf
               key: cluster_name
         - name: VER

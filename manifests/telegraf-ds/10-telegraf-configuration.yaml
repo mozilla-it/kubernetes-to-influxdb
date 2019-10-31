@@ -40,6 +40,12 @@ data:
       insecure_skip_verify = true
       interval = "60s"
 
+    # kubelet stats
+    [[inputs.kubernetes]]
+      url = "https://${HOST_IP}:10250"
+      bearer_token = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+      insecure_skip_verify = true
+
     # OUTPUTS
     [[outputs.influxdb]]
       urls = ["${INFLUX_URL}"]

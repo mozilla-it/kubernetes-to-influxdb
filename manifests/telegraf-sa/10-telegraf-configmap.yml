@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    k8s-app: telegraf-sa
+    app: telegraf-sa
   name: telegraf-sa
   namespace: monitoring
 data:
@@ -12,16 +12,19 @@ data:
       product = "${CLUSTER_NAME}"
       environment = "production"
     [agent]
-      hostname = "$HOSTNAME"
+      # Need to set a hostname, otherwise $HOSTNAME is used and blows cardinality
+      hostname = "telegraf-standalone"
 
     # INPUTS
     #
     # Kube-state-metrics
     [[inputs.prometheus]]
+      namedrop = ["kube_*_created", "kube_*_metadata_resource_version", "kube_storageclass*", "kube_pod_owner", "kube_pod_container_status_waiting_reason", "kube_pod_container_status_last_terminated_reason", "kube_pod_status_phase"]
+      tagexclude = ["uid"]
       urls = ["http://kube-state-metrics.monitoring.svc.cluster.local:8080/metrics"]
 
     # OUTPUTS
-    [[outputs.influxdb]]
+    [[outputs.influxdb_kube]]
       urls = ["${INFLUX_URL}"]
       database = "${INFLUX_DB}"
       timeout  = "15s"

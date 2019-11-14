@@ -22,22 +22,22 @@ spec:
         - name: INFLUX_USER
           valueFrom:
             secretKeyRef:
-              name: telegraf-secrets
+              name: telegraf-kube
               key: user
         - name: INFLUX_DB
           valueFrom:
             secretKeyRef:
-              name: telegraf-secrets
+              name: telegraf-kube
               key: db
         - name: INFLUX_PW
           valueFrom:
             secretKeyRef:
-              name: telegraf-secrets
+              name: telegraf-kube
               key: pw
         - name: INFLUX_URL
           valueFrom:
             secretKeyRef:
-              name: telegraf-secrets
+              name: telegraf-kube
               key: url
         - name: CLUSTER_NAME
           valueFrom:
